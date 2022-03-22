@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { ListItem } from '../../components/ListItem';
+import { FiBox, FiMinus, FiPlus } from "react-icons/fi";
 
-import { Container, Header, HeaderTitle, Title, Stickers } from './styles';
+import { Container, Header, Title, Counter, Remarks, Footer } from './styles';
+
+interface FormProps {
+  react: boolean;
+  vue: boolean;
+  angular: boolean;
+  quantity: number;
+  remark: string;
+}
 
 export function Products() {
-  const [formValues, setFormValues] = useState({})
-  const [quantity, setQuantity] = useState(0)
-  const [react, setReact] = useState(false)
-  const [vue, setVue] = useState(false)
-  const [angular, setAngular] = useState(false)
-  const [remark, setRemark] = useState("")
+  const defaultForm = {
+    react: false,
+    vue: false,
+    angular: false,
+    quantity: 0,
+    remark: "",
+  }
+
+  const [formValues, setFormValues] = useState<FormProps>(defaultForm)
 
   const stickers = ['React', 'Vue', 'Angular'];
 
@@ -17,39 +29,68 @@ export function Products() {
     const {name, checked} = e.target;
 
     if (name === 'react') {
-      setReact(checked);
+      setFormValues(prevState => ({  
+        ...prevState,
+        react: checked
+      }))
     } else if (name === 'vue') {
-      setVue(checked);
+      setFormValues(prevState => ({  
+        ...prevState,
+        vue: checked
+      }))
     } else {
-      setAngular(checked);
+      setFormValues(prevState => ({  
+        ...prevState,
+        angular: checked
+      }))
     }
   }
 
+  const handleInputChange = (value: string) => {
+    setFormValues(prevState => ({
+      ...prevState,
+      quantity: Number(value) 
+    }))
+
+    console.log({quantity: value});
+    
+  }
+
   const handleDecreaseCounter = () => {
-    if (quantity > 0) {
-      setQuantity(quantity - 1)
+    if (formValues.quantity > 0) {
+      setFormValues(prevState => ({  
+        ...prevState,
+        quantity: prevState.quantity - 1
+      }))
     }
   }
 
   const handleIncreaseCounter = () => {
-    setQuantity(quantity + 1)
+    setFormValues(prevState => ({  
+      ...prevState,
+      quantity: prevState.quantity + 1
+    }))
   }
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleRemarks = (value: string) => {
+    setFormValues(prevState => ({
+      ...prevState,
+      remark: value
+    }))
+  }
+
+  const handleSubmit = (e: { preventDefault: () => void; target: any; }) => {
     e.preventDefault();
-    setFormValues({
-      react,
-      vue,
-      angular,
-      quantity,
-      remark
-    })
-  } 
+    alert('*** handleSubmit\n' + JSON.stringify(formValues));
+    e.target.reset();
+    setFormValues(defaultForm);
+  }
 
   return (
     <Container>
       <Header>
-        <HeaderTitle>Formulário{'\n'}para compra de{'\n'}<strong>Pacote de adesivos</strong></HeaderTitle>
+        <p>Formulário{'\n'}para compra de{'\n'}<strong>Pacote de adesivos</strong></p>
+        <FiBox className='iconBox'/>
       </Header>
 
       <form onSubmit={handleSubmit}>
@@ -57,16 +98,27 @@ export function Products() {
         <ListItem data={stickers} onChange={handleCheckboxChange} />
 
         <Title>Quantos adesivos de cada?</Title>
-        <div>
-          <button onClick={handleDecreaseCounter}>-</button>
-            <span id='counter'>{quantity}</span>
-          <button onClick={handleIncreaseCounter}>+</button>
-        </div>
+        <Counter>
+          <button type="button" onClick={handleDecreaseCounter}>
+            <FiMinus color='white' size={18}/>
+          </button>
+            <input 
+              type="number" 
+              value={formValues.quantity} 
+              onChange={e => handleInputChange(e.target.value)}
+              minLength={0}  
+            />
+          <button type="button" onClick={handleIncreaseCounter}>
+            <FiPlus color='white' size={18}/>
+          </button>
+        </Counter>
 
         <Title>Observações:</Title>
-        <textarea name="remarks" onChange={e => setRemark(e.target.value)}></textarea>
+        <Remarks name="remarks" onChange={e => handleRemarks(e.target.value)} placeholder='Alguma dúvida? Recado?'></Remarks>
 
-        <button type="submit">Enviar</button>
+        <Footer>
+          <button type="submit">Enviar</button>
+        </Footer>
       </form>
     </ Container>
   );
