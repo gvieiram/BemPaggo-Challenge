@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes } from 'react';
-import { Container } from './styles';
+import { Container, Checkbox } from './styles';
 
 interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   data: string[],
@@ -12,10 +12,10 @@ export function ListItem({data, name, ...rest} : CheckboxProps) {
       {
         data.map((item, index) => {
           return (
-            <label key={index}>
+            <Checkbox key={index}>
               <input type="checkbox" name={name || item.toLowerCase()} value={item} {...rest}/>
               {item}
-            </label>
+            </Checkbox>
           )
         })
       }

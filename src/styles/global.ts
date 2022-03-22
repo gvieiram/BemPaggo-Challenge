@@ -34,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 600;
   }
 
-  button, a {
+  button, a, input[type="checkbox"] {
     cursor: pointer;
   }
 

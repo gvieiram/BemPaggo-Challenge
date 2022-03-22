@@ -7,7 +7,6 @@ export const Container = styled.div`
   flex-direction: column;
 
   form {
-    padding: 0 150px 0 100px;
     margin-top: 50px;
     display: flex;
     flex-direction: column;
@@ -21,18 +20,42 @@ export const Header = styled.div`
   width: 100%;
   height: 500px;
   padding: 0 150px 0 100px;
+
+  @media (max-width: 1400px) {
+    padding: 0 100px;
+    }
   
   p { 
     white-space: pre-line;
-    font-size: 60px;
+    font-size: 3.75rem;
     color: ${props => props.theme.colors.white};
     margin-top: 5%;
+
+    @media (max-width:812px) {
+      font-size: 3.5rem;
+    }
+
+    @media (max-width:598px) {
+      font-size: 3rem;
+    }
   }
 
   .iconBox {
     font-size: 25rem;
     color: ${props => props.theme.colors.blue_secondary};
+
+    @media (min-width: 1401px) {
+      font-size: 21rem;
+    }
+
+    @media (max-width: 1400px) {
+      font-size: 21rem;
+    }
   }
+`;
+
+export const Content = styled.div`
+  padding: 0 100px;
 `;
 
 export const Title = styled.h3`
@@ -48,7 +71,6 @@ export const Stickers = styled.div`
 export const Counter = styled.div`
   display: flex;
   align-items: center;
-  max-width: 120px;
 
   button {
     display: flex;
@@ -64,6 +86,8 @@ export const Counter = styled.div`
 
   input[type="number"] {
     height: 25px;
+    width: 80px;
+
     margin: 0 10px;
     background-color: ${props => props.theme.colors.gray};
     display: flex;
@@ -76,6 +100,7 @@ export const Counter = styled.div`
 
 export const Remarks = styled.textarea`
   width: 50%;
+  min-width: 300px;
   height: 200px;
   padding: 15px;
   background-color: ${props => props.theme.colors.gray};
@@ -85,19 +110,3 @@ export const Remarks = styled.textarea`
 
   margin-bottom: 50px;
 `;
-
-export const Footer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 10%;
-  /* position: absolute; */
-  bottom: 0;
-  width: 100%;
-  background-color: ${props => props.theme.colors.gray};
-  height: 100px;
-`;
-
-
-
-
